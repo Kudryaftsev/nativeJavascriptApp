@@ -41,18 +41,28 @@ function handleBoxClick( event ){
 function renderBox() {
     //  Очищать поле, чтобы рендерить новые квадраты
     $game.innerHTML = ''
+    var boxSize = getRandom( 10, 100 )
+    //  Узнать про объект
+    var gameSize = $game.getBoundingClientRect()
+    var maxTop = gameSize.height - boxSize
+    var maxLeft = gameSize.width - boxSize
 
     // make element in js
     var box = document.createElement( 'div' )
-    box.style.height = box.style.width = '50px'     //  later - dynamic generation
-    box.style.position = 'absolute'                 //  для позиционирования в рамках квадрата
-    box.style.backgroundColor = 'black'             //  later - dynamic generation
-    box.style.top = '50px'                          //  later - dynamic...
-    box.style.left = '70px'                         //  later - dynamic...
+    box.style.height = box.style.width = boxSize + 'px' //  dynamic generation
+    box.style.position = 'absolute'                     //  для позиционирования в рамках квадрата
+    box.style.backgroundColor = 'black'                 //  later - dynamic generation
+    box.style.top = getRandom( 0, maxTop ) + 'px'       //  dynamic...
+    box.style.left = getRandom( 0, maxLeft ) + 'px'     //  dynamic...
     box.style.cursor = 'pointer'
     // да, это выдуманный атрибут, крута (только без префикса data)
     box.setAttribute( 'data-box', 'true' )
 
     //  mdn - 1) beforebegin; 2) afterbegin; 3) beforeend; 4) afterend - до элемента, сразу после откр тега и так далее, второй параметр - сам элемент
     $game.insertAdjacentElement( 'afterbegin', box )
+}
+
+function getRandom( min, max ){
+    //  floor - округление
+    return Math.floor(Math.random() * (max - min) + min)
 }
