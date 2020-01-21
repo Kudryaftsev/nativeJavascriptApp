@@ -2,27 +2,24 @@
 var $start = document.querySelector( '#start' )
 var $game = document.querySelector( '#game' )
 var $time = document.querySelector( '#time' )
+var $timeHeader = document.querySelector( '#time-header' )
+var $resultHeader = document.querySelector( '#result-header' )
+var $result = document.querySelector( '#result' )
+var $gameTime = document.querySelector( '#game-time' )
 
 var score = 0
 var isGameStarted = false
 
 $start.addEventListener( 'click', startGame )
 $game.addEventListener( 'click', handleBoxClick )
-
-
-
-
-
-
-
-
-
-
-
-
-
+$gameTime.addEventListener( 'input', setGameTime )
 
 function startGame() {
+    score = 0
+    setGameTime()
+    $gameTime.setAttribute( 'disabled', 'true' )
+    $timeHeader.classList.remove( 'hide' )
+    $resultHeader.classList.add( 'hide' )
     isGameStarted = true
     // Скрываем кнопку и определяем фон
     $start.classList.add( 'hide' )
@@ -43,8 +40,27 @@ function startGame() {
     renderBox()
 }
 
+function setGameScore(){
+    $result.textContent = score.toString()
+}
+
+function setGameTime(){
+    var time = +$gameTime.value
+    $time.textContent = time.toFixed( 1 )
+}
+
 function endGame(){
     isGameStarted = false
+    $gameTime.removeAttribute( 'disabled' )
+    setGameScore()
+
+    $start.classList.remove( 'hide' )
+    $game.innerHTML = ''
+    $game.style.backgroundColor = '#ccc'
+
+    $timeHeader.classList.add( 'hide' )
+    $resultHeader.classList.remove( 'hide' )
+
 }
 
 
